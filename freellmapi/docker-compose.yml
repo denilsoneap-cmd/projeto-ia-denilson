@@ -1,0 +1,36 @@
+# FreeLLMAPI — gateway OpenAI-compatível que agrega os planos gratuitos de
+# vários provedores de LLM (Groq, Google, Cerebras, Mistral, OpenRouter...).
+# Upstream: https://github.com/tashfeenahmed/freellmapi
+services:
+  freellmapi:
+    image: ghcr.io/tashfeenahmed/freellmapi:${FREELLMAPI_TAG:-latest}
+    container_name: freellmapi
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+    # Só em localhost por padrão (o proxy é de usuário único).
+    # Use HOST_BIND=0.0.0.0 para acessar pela rede local.
+    ports:
+      - "${HOST_BIND:-127.0.0.1}:${PORT:-3001}:3001"
+    volumes:
+      - freellmapi-data:/app/server/data
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:3001/api/ping').then((r) => { if (!r.ok) process.exit(1); }).catch(() => process.exit(1));"
+        ]
+      interval: 30s
+      timeout: 5s
+      start_period: 15s
+      retries: 3
+
+volumes:
+  freellmapi-data:
