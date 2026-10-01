@@ -36,6 +36,9 @@ Rodar o script de novo atualiza o FreeLLMAPI e mantém o `.env` que já existe.
 1. Abra <http://localhost:3001> e crie a conta de administrador.
 2. Na página **Keys**, adicione as API keys gratuitas dos provedores (por exemplo Google AI Studio, Groq, Cerebras e OpenRouter).
 3. Copie a **chave unificada** (`freellmapi-…`) que aparece no topo da página **Keys**.
+4. Teste com `.\testar.ps1 -Key freellmapi-...` (ou `./testar.sh freellmapi-...`).
+
+O guia completo (quais provedores conectar, onde gerar as keys, cadeias de fallback, agentes e checklist) está em **[PROVEDORES.md](PROVEDORES.md)**.
 
 ## Usando a API
 
