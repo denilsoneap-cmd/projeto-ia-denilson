@@ -66,3 +66,19 @@ Para configurar agentes de código automaticamente: `npx freellmapi setup-claude
 | Desinstalar e apagar dados | `docker compose down -v` |
 
 Esqueceu a senha do painel? Clique em **Forgot password?** e procure o código de reset nos logs.
+
+## Pelo VS Code
+
+Abra a pasta do projeto no VS Code e use **Ctrl+Shift+B** para iniciar o FreeLLMAPI.
+As outras tarefas ficam em **Ctrl+Shift+P → Tasks: Run Task**:
+
+| Tarefa | O que faz |
+|--------|-----------|
+| FreeLLMAPI: Iniciar | `docker compose up -d` (tarefa padrão do Ctrl+Shift+B) |
+| FreeLLMAPI: Instalar / Atualizar | roda `instalar.ps1` / `instalar.sh` |
+| FreeLLMAPI: Parar | `docker compose down` |
+| FreeLLMAPI: Logs | acompanha os logs do container |
+| FreeLLMAPI: Abrir painel | abre <http://localhost:3001> no navegador |
+| FreeLLMAPI: Testar | pede a chave unificada (oculta) e roda `testar.ps1` / `testar.sh` |
+
+As tarefas usam o Docker. Se você instalou o app desktop, inicie pelo próprio app (o ícone da bandeja).
