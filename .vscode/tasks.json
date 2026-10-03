@@ -1,0 +1,67 @@
+{
+  // FreeLLMAPI: Ctrl+Shift+P → "Tasks: Run Task" → escolha a tarefa.
+  // "FreeLLMAPI: Iniciar" é a tarefa de build padrão (Ctrl+Shift+B).
+  "version": "2.0.0",
+  "options": { "cwd": "${workspaceFolder}/freellmapi" },
+  "tasks": [
+    {
+      "label": "FreeLLMAPI: Iniciar",
+      "type": "shell",
+      "command": "docker compose up -d && docker compose ps",
+      "windows": {
+        "command": "docker compose up -d; if ($?) { docker compose ps }"
+      },
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "FreeLLMAPI: Instalar / Atualizar",
+      "type": "shell",
+      "command": "./instalar.sh",
+      "windows": {
+        "command": "powershell -ExecutionPolicy Bypass -File .\\instalar.ps1"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "FreeLLMAPI: Parar",
+      "type": "shell",
+      "command": "docker compose down",
+      "problemMatcher": []
+    },
+    {
+      "label": "FreeLLMAPI: Logs",
+      "type": "shell",
+      "command": "docker compose logs -f --tail 100 freellmapi",
+      "isBackground": true,
+      "problemMatcher": []
+    },
+    {
+      "label": "FreeLLMAPI: Abrir painel",
+      "type": "shell",
+      "command": "xdg-open http://localhost:3001 || open http://localhost:3001",
+      "windows": { "command": "Start-Process http://localhost:3001" },
+      "presentation": { "reveal": "never" },
+      "problemMatcher": []
+    },
+    {
+      "label": "FreeLLMAPI: Testar",
+      "type": "shell",
+      "command": "./testar.sh",
+      "args": ["${input:freellmapiKey}"],
+      "windows": {
+        "command": "powershell -ExecutionPolicy Bypass -File .\\testar.ps1",
+        "args": ["-Key", "${input:freellmapiKey}"]
+      },
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "freellmapiKey",
+      "type": "promptString",
+      "description": "Chave unificada do FreeLLMAPI (freellmapi-...)",
+      "password": true
+    }
+  ]
+}
